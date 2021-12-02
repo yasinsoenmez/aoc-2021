@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 aoc2021-lib = {path = "./aoc2021-lib"}
+cli-table = "0.4.6"
