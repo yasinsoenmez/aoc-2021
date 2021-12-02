@@ -9,7 +9,8 @@ fn main() {
     let day1_str = std::fs::read_to_string(day1_path).unwrap();
     let day2_str = std::fs::read_to_string(day2_path).unwrap();
 
-    let day1_parsed = day1::parse(&day1_str);
+    let day1_parsed = day1::day1_parse(&day1_str);
+    let day2_parsed = day2::day2_parse(&day2_str);
 
     let table = vec![
         vec!["Day 1".cell(),
@@ -17,8 +18,8 @@ fn main() {
              day1::day1_2(&day1_parsed).cell().justify(Justify::Right)
         ],
         vec!["Day 2".cell(),
-             day2::day2_1(&day2_str).cell().justify(Justify::Right),
-             day2::day2_2(&day2_str).cell().justify(Justify::Right)
+             day2::day2_1(&day2_parsed).cell().justify(Justify::Right),
+             day2::day2_2(&day2_parsed).cell().justify(Justify::Right)
         ],
     ]
     .table()

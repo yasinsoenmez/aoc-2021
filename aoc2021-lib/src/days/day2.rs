@@ -1,52 +1,56 @@
-#[derive(Clone, Copy)]
-pub struct SubmarinePosition {
-    horizontal: u32,
-    depth: u32,
-    aim: u32,
+pub enum Movement {
+    Forward(u8),
+    Down(u8),
+    Up(u8),
 }
 
-pub fn day2_1(input: &str) -> u32 {
-    let mut position = SubmarinePosition {horizontal: 0, depth: 0, aim: 0};
+fn to_movement(movement: &str) -> Movement  {
+    match movement.split_once(' ') {
+        Some(("forward", x)) => Movement::Forward(x.parse().unwrap()),
+        Some(("down", x)) => Movement::Down(x.parse().unwrap()),
+        Some(("up", x)) => Movement::Up(x.parse().unwrap()),
+        _ => Movement::Forward(0),
+    }
+}
 
-    let last_position =
-        input
+pub fn day2_parse(input: &str) -> Vec<Movement> {
+    input
         .lines()
-        .map(|line| {
-            match line.split_once(' ') {
-                Some(("forward", x)) => position.horizontal += x.parse::<u32>().unwrap(),
-                Some(("down", x)) => position.depth += x.parse::<u32>().unwrap(),
-                Some(("up", x)) => position.depth -= x.parse::<u32>().unwrap(),
-                _ => (),
-            }
-            position
-        })
-        .last()
-        .unwrap();
-    last_position.horizontal * last_position.depth
+        .map(to_movement)
+        .collect()
 }
 
-pub fn day2_2(input: &str) -> u32 {
-    let mut position = SubmarinePosition {horizontal: 0, depth: 0, aim: 0};
 
-    let last_position =
-        input
-            .lines()
-            .map(|line| {
-                match line.split_once(' ') {
-                    Some(("forward", x)) => {
-                        let x_parsed = x.parse::<u32>().unwrap();
-                        position.horizontal += x_parsed;
-                        position.depth += position.aim * x_parsed;
-                    },
-                    Some(("down", x)) => position.aim += x.parse::<u32>().unwrap(),
-                    Some(("up", x)) => position.aim -= x.parse::<u32>().unwrap(),
-                    _ => (),
-                }
-                position
-            })
-            .last()
-            .unwrap();
-    last_position.horizontal * last_position.depth
+pub fn day2_1(input: &[Movement]) -> u32 {
+    let mut horizontal = 0;
+    let mut depth = 0;
+
+    for movement in input.iter() {
+        match movement {
+            Movement::Forward(x) => horizontal += *x as u32,
+            Movement::Down(x) => depth += *x as u32,
+            Movement::Up(x) => depth -= *x as u32,
+        }
+    }
+    horizontal * depth
+}
+
+pub fn day2_2(input: &[Movement]) -> u32 {
+    let mut horizontal = 0;
+    let mut depth = 0;
+    let mut aim = 0;
+
+    for movement in input.iter() {
+        match movement {
+            Movement::Forward(x) => {
+                horizontal += *x as u32;
+                depth += aim * *x as u32;
+            },
+            Movement::Down(x) => aim += *x as u32,
+            Movement::Up(x) => aim -= *x as u32,
+        }
+    }
+    horizontal * depth
 }
 
 #[cfg(test)]
@@ -56,8 +60,16 @@ mod tests {
     #[test]
     fn d2p1() {
         let day2 = "forward 5\ndown 5\nforward 8\nup 3\ndown 8\nforward 2";
+        let day2_parsed = day2_parse(day2);
 
-        assert_eq!(day2_1(&day2), 150);
-        assert_eq!(day2_2(&day2), 900);
+        assert_eq!(day2_1(&day2_parsed), 150);
+    }
+
+    #[test]
+    fn d2p2() {
+        let day2 = "forward 5\ndown 5\nforward 8\nup 3\ndown 8\nforward 2";
+        let day2_parsed = day2_parse(day2);
+
+        assert_eq!(day2_2(&day2_parsed), 900);
     }
 }
