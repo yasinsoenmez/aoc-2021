@@ -2,6 +2,7 @@ use std::fs;
 use std::path::Path;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use aoc2021_lib::days::*;
+//noinspection ALL,RsUnresolvedReference
 fn criterion_benchmark(c: &mut Criterion) {
 
     let day1_path = Path::new("../input/day1.txt");
