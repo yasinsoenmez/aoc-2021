@@ -4,7 +4,7 @@ pub enum Movement {
     Up(u8),
 }
 
-fn to_movement(movement: &str) -> Movement  {
+fn to_movement(movement: &str) -> Movement {
     match movement.split_once(' ') {
         Some(("forward", x)) => Movement::Forward(x.parse().unwrap()),
         Some(("down", x)) => Movement::Down(x.parse().unwrap()),
@@ -19,7 +19,6 @@ pub fn day2_parse(input: &str) -> Vec<Movement> {
         .map(to_movement)
         .collect()
 }
-
 
 pub fn day2_1(input: &[Movement]) -> u32 {
     let mut horizontal = 0;
@@ -45,7 +44,7 @@ pub fn day2_2(input: &[Movement]) -> u32 {
             Movement::Forward(x) => {
                 horizontal += *x as u32;
                 depth += aim * *x as u32;
-            },
+            }
             Movement::Down(x) => aim += *x as u32,
             Movement::Up(x) => aim -= *x as u32,
         }

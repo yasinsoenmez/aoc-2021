@@ -8,10 +8,7 @@ pub fn day1_parse(input: &str) -> Vec<u16> {
 }
 
 fn count_depth_increase(input: &[u16], step: usize) -> usize {
-    input
-        .windows(step)
-        .filter(|x| x.last() > x.first())
-        .count()
+    input.windows(step).filter(|x| x.last() > x.first()).count()
 }
 
 pub fn day1_1(input: &[u16]) -> usize {

@@ -1,4 +1,3 @@
-
 pub fn day1_1(input: &[u16]) -> usize {
     let mut prev = input[0];
 
