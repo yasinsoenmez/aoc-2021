@@ -43,17 +43,22 @@ pub fn day3_1(input: &(Vec<u16>, usize)) -> u32 {
     gamma_rate as u32 * epsilon_rate as u32
 }
 
-fn determine_oxygen_rating(oxygen_list: Vec<u16>,  bit_place: usize, bit_length: usize) -> Vec<u16> {
-    let mut bit_one_list = Vec::with_capacity(oxygen_list.len());
-    let mut bit_zero_list = Vec::with_capacity(oxygen_list.len());
+fn get_bit_list(input: Vec<u16>,  bit_place: usize, bit_length: usize) -> (Vec<u16>, Vec<u16>) {
+    let mut bit_one_list = Vec::with_capacity(input.len());
+    let mut bit_zero_list = Vec::with_capacity(input.len());
 
-    for num in oxygen_list {
+    for num in input {
         if num & (1 << bit_length - bit_place - 1) != 0 {
             bit_one_list.push(num);
         } else {
             bit_zero_list.push(num);
         }
     }
+    (bit_one_list, bit_zero_list)
+}
+
+fn determine_oxygen_rating(oxygen_list: Vec<u16>,  bit_place: usize, bit_length: usize) -> Vec<u16> {
+    let (bit_one_list, bit_zero_list) = get_bit_list(oxygen_list, bit_place, bit_length);
 
     if bit_one_list.len() >= bit_zero_list.len() {
         bit_one_list
@@ -63,16 +68,7 @@ fn determine_oxygen_rating(oxygen_list: Vec<u16>,  bit_place: usize, bit_length:
 }
 
 fn determine_scrubber_rating(scrubber_list: Vec<u16>, bit_place: usize, bit_length: usize) -> Vec<u16> {
-    let mut bit_one_list = Vec::with_capacity(scrubber_list.len());
-    let mut bit_zero_list = Vec::with_capacity(scrubber_list.len());
-
-    for num in scrubber_list {
-        if num & (1 << bit_length - bit_place - 1) != 0 {
-            bit_one_list.push(num);
-        } else {
-            bit_zero_list.push(num);
-        }
-    }
+    let (bit_one_list, bit_zero_list) = get_bit_list(scrubber_list, bit_place, bit_length);
 
     if bit_one_list.len() < bit_zero_list.len() {
         bit_one_list

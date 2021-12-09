@@ -23,6 +23,12 @@ fn main() {
     let day3_1_result = day3::day3_1(&day3_parsed);
     let day3_2_result = day3::day3_2(&day3_parsed);
 
+    let day4_path = Path::new("input/day4.txt");
+    let day4_str = std::fs::read_to_string(day4_path).unwrap();
+    let day4_parsed = day4::day4_parse(&day4_str);
+    let day4_1_result = day4::day4_1(day4_parsed.clone());
+    let day4_2_result = day4::day4_2(day4_parsed.clone());
+
     let table = vec![
        vec!["Day 1".cell(),
             day1_1_result.cell().justify(Justify::Right),
@@ -35,6 +41,10 @@ fn main() {
        vec!["Day 3".cell(),
             day3_1_result.cell().justify(Justify::Right),
             day3_2_result.cell().justify(Justify::Right)
+       ],
+       vec!["Day 4".cell(),
+            day4_1_result.cell().justify(Justify::Right),
+            day4_2_result.cell().justify(Justify::Right)
        ],
     ]
        .table()
